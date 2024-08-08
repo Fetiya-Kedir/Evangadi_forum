@@ -1,16 +1,16 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 2000; // Use PORT from environment or fallback to 2000
+const port = process.env.PORT || 3000; // Use PORT from environment or fallback to 3000
+
+const cors = require('cors');
+app.use(cors());
+app.use(express.json());
 
 // Import routes
 const userRoute = require('./routes/userRoute');
 const questionsRouter = require('./routes/questionRoute');
 const answersRouter = require('./routes/answerRoute');
-
-const cors = require('cors');
-app.use(cors());
-app.use(express.json());
 
 // Register routes
 app.use('/api/users', userRoute);
