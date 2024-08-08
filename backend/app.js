@@ -1,41 +1,42 @@
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const port = 2000; // Original port number
+const port = process.env.PORT || 2000; // Use PORT from environment or fallback to 2000
 
 // Import routes
-const userRoute = require("./routes/userRoute");
-const questionsRouter = require("./routes/questionRoute");
-const answersRouter = require("./routes/answerRoute");
+const userRoute = require('./routes/userRoute');
+const questionsRouter = require('./routes/questionRoute');
+const answersRouter = require('./routes/answerRoute');
 
-const cors = require("cors");
+const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
 // Register routes
-app.use("/api/users", userRoute);
-app.use("/api/questions", questionsRouter);
-app.use("/api/answers", answersRouter);
+app.use('/api/users', userRoute);
+app.use('/api/questions', questionsRouter);
+app.use('/api/answers', answersRouter);
 
 // Start server
-const dbConnection = require("./db/config");
+const dbConnection = require('./db/config');
 
 async function start() {
-  try {
-    await dbConnection.execute("SELECT 'test'");
-    console.log("Database connection established");
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  } catch (error) {
-    console.error("Error starting server:", error.message);
-    if (error.code === "EADDRINUSE") {
-      console.error(
-        `Port ${port} is already in use. Please choose a different port.`
-      );
-    } else {
-      console.error("Unexpected error:", error.message);
-    }
-  }
+	try {
+		await dbConnection.execute("SELECT 'test'");
+		console.log('Database connection established');
+		app.listen(port, () => {
+			console.log(`Server is running on port ${port}`);
+		});
+	} catch (error) {
+		console.error('Error starting server:', error.message);
+		if (error.code === 'EADDRINUSE') {
+			console.error(
+				`Port ${port} is already in use. Please choose a different port.`
+			);
+		} else {
+			console.error('Unexpected error:', error.message);
+		}
+	}
 }
 
 start();
